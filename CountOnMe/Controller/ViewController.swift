@@ -32,15 +32,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedOperatorButton(_ sender: UIButton) {
-        guard let operators = sender.title(for: .normal) else { return }         //   guard let operators = sender.titleLabel?.text else { return }
+        guard let operators = sender.title(for: .normal) else { return }
         simpleCalc.addNewOperator(with: operators)
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         simpleCalc.calculate()
     }
-    
-    
 }
 
     // MARK: - EXTENSION

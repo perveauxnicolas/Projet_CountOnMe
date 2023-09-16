@@ -17,9 +17,11 @@ class SimpleCalc  {
     
     // MARK: - PROPERTIES
     var stringNumbers: [String] = [String()] // Array of number
-    var operators: [String] = [String()]     //Array of operators
+    var operators: [String] = ["+"]     //Array of operators
     var index = 0
     var simpleCalcDelegate: simpleCalcDelegate?     //  the delegate
+    
+    var resultString:String! // Parameter to round the result if not a decimal number
     
     var expressionIsCorrect: Bool {   //expression correctly entered by the user, otherwise it will alert the user
         if let stringNumber = stringNumbers.last {
@@ -44,7 +46,6 @@ class SimpleCalc  {
         }
         return true
     }
-    
     
     // MARK: - METHODS
     
@@ -78,16 +79,11 @@ class SimpleCalc  {
             multiplication()
             case "÷":
             division()
-          //  case "=":
-          //  calculate()
-           // return
             case "AC":
             clear()
             default: break
         }
-          //  updateDisplay()
-        
-        }
+    }
 
     func calculate() {                       // managing operations (+, -)
         if !expressionIsCorrect {
@@ -103,13 +99,22 @@ class SimpleCalc  {
                     total -= number
                 }
             }
+        let result = total
+        clear()
+        roundResult(result: result)    // Round the result if no decimal needed
+        simpleCalcDelegate?.updateTextView(label: resultString)
+        stringNumbers[stringNumbers.count-1] = resultString
+         }
         
-        let result = String(format: "%g", total)    //"%.2f"
-        simpleCalcDelegate?.updateTextView(label: result)
-       // clear()
+    func roundResult(result: Double) { //remove the decimal of the Double if result is an integer
+        if result == Double(Int(result)) {
+            let roundResult = Int(result)
+            resultString = String(roundResult)
+        } else {
+            resultString = String(format:"%.2f", result)
+        }
     }
-        
-    
+
     func orderOfOperations() {      //  managing order of operations and managing operations (*, /)
             let priorityOperators = ["x", "÷"]
             var result: Double = 0
@@ -140,16 +145,15 @@ class SimpleCalc  {
             }
     }
     
-     func addition() {                     // plus operator when users types it
+     func addition() {      // plus operator when users types it
         if canAddOperator {
-           //operators.insert("+", at: 0)
             operators.append("+")
             stringNumbers.append("")
             updateDisplay()
         }
     }
-    
-    func substraction() {                  // minus operator when users types it
+
+    func substraction() {   // minus operator when users types it
             if canAddOperator {
                 operators.append("-")
                 stringNumbers.append("")
@@ -157,7 +161,7 @@ class SimpleCalc  {
             }
     }
     
-    func division() {                   // divide operator when user types it
+    func division() {   // divide operator when user types it
             if canAddOperator {
                 operators.append("÷")
                 stringNumbers.append("")
@@ -165,7 +169,7 @@ class SimpleCalc  {
             }
     }
     
-    func multiplication() {           // multiply operator when user types it
+    func multiplication() { // multiply operator when user types it
             if canAddOperator {
                 operators.append("x")
                 stringNumbers.append("")
@@ -173,9 +177,9 @@ class SimpleCalc  {
             }
     }
 
-    func clear() {                         // reset
+    func clear() {  // reset
         stringNumbers = [String()]
-        operators = [String()]
+        operators = ["+"]
         index = 0
         updateDisplay()
     }

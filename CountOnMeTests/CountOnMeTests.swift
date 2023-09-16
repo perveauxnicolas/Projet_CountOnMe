@@ -11,23 +11,16 @@ import XCTest
 
 @testable import CountOnMe
 
+
 class SimpleCalcTests: XCTestCase {
     
     //MARK: - PROPERTIES
-      var countOnMe: SimpleCalc!
+    var countOnMe: SimpleCalc!
     
     //MARK: - METHODS
-   override func setUp() {
-      super.setUp()
- countOnMe = SimpleCalc()
-  }
-    
-
-    func testGiventhreeNumber_WhenTappingsevenFourseven_ThenResultShouldBeSevenHundredFourtySeven() {
-        countOnMe.addNewNumber(7)
-        countOnMe.addNewNumber(4)
-        countOnMe.addNewNumber(7)
-        XCTAssert(countOnMe.stringNumbers.last == "747")
+    override func setUp() {
+        super.setUp()
+        countOnMe = SimpleCalc()
     }
     
     func testGivenIsExpressionCorrect_WhenExpressionTappedIsNotCorrect_ThenExpressionReturnFalse() {
@@ -36,7 +29,7 @@ class SimpleCalcTests: XCTestCase {
         countOnMe.calculate()
         XCTAssertFalse(countOnMe.expressionIsCorrect)
     }
-
+    
     func testGivenIsExpressionCorrect_WhenExpressionTappedIsCorrect_ThenExpressionReturnTrue() {
         countOnMe.addNewNumber(1)
         countOnMe.addition()
@@ -45,31 +38,29 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertTrue(countOnMe.expressionIsCorrect)
     }
     
+    func testGivenerror_WrongExpression(){
+        countOnMe.addNewOperator(with: "+")
+        countOnMe.simpleCalcDelegate?.alertMessage(title: "error", message: "Wrong expression!")
+        XCTAssert(true)
+    }
+    
+    func testGivenStartAnewCalculation(){
+        countOnMe.calculate()
+        countOnMe.simpleCalcDelegate?.alertMessage(title: "error!", message: "Start a new calculation!")
+        XCTAssert(true)
+    }
+    
     func testGivenCanAddOperator_WhenStringNumberContainSomething_ThenCanAddOperatorReturnTrue() {
         countOnMe.addNewNumber(1)
         XCTAssertTrue(countOnMe.canAddOperator)
     }
     
-    
-    func testGivenOrderOfOperations_WhenStringNumberContainSomething_ThenStringNumberFollowsOrderOfOperations() {
-        countOnMe.addNewNumber(1)
-        countOnMe.substraction()
-        countOnMe.addNewNumber(2)
-        countOnMe.multiplication()
-        countOnMe.addNewNumber(8)
-        countOnMe.division()
-        countOnMe.addNewNumber(2)
-        countOnMe.calculate()
-        XCTAssert(true)
+    func testGiventhreeNumber_WhenTappingsevenFourseven_ThenResultShouldBeSevenHundredFourtySeven() {
+        countOnMe.addNewNumber(7)
+        countOnMe.addNewNumber(4)
+        countOnMe.addNewNumber(7)
+        XCTAssert(countOnMe.stringNumbers.last == "747")
     }
-    
-    func testGivenOrderOfOperations_WhenStringNumberContainSomething_ThenStringNumberIsCorrect() {
-        countOnMe.addNewNumber(1)
-        countOnMe.orderOfOperations()
-        XCTAssert(true)
-    }
-    
-   
     
     func testGivenOperators_WhenTappingOperators_ThenfunctionOperator() {
         countOnMe.addNewOperator(with: "+")
@@ -84,88 +75,67 @@ class SimpleCalcTests: XCTestCase {
         countOnMe.clear()
         XCTAssert(true)
     }
-        
-    /*
-    func testTextToDisplay() {
-        countOnMe.addNewNumber(10)
-        XCTAssert(countOnMe.updateDisplay.text == "10")
-    }
-     func testGivenAddititon_WhenTappingTenMoretwo_ThenResultShouldBetwelve() {
-         countOnMe.addNewNumber(10)
-         countOnMe.addition()
-         countOnMe.addNewNumber(2)
-         countOnMe.addition()
-         XCTAssert(countOnMe.stringNumbers.last == "12")
-     }
-     
-     func testGivenSubstraction_WhenTappingTenLessEight_ThenResultShouldTwo() {
-        countOnMe.addNewNumber(10)
-        countOnMe.substraction()
-        countOnMe.addNewNumber(8)
-        countOnMe.calculate()
-        XCTAssert(countOnMe.stringNumbers.last == "2")
-    }
     
-    func testGivenMultiplication_WhenTappingTenLessEight_ThenResultShouldTwo() {
-        countOnMe.addNewNumber(10)
-        countOnMe.multiplication()
+    func testGivenOrderOfOperations_WhenStringNumberContainSomething_ThenStringNumberFollowsOrderOfOperations() {
+        countOnMe.addNewNumber(1)
+        countOnMe.substraction()
         countOnMe.addNewNumber(2)
-        countOnMe.calculate()
-        XCTAssert(countOnMe.stringNumbers.last == "20")
-    }
-  
-    func testGivenDivision_WhenTappingTenLessTwo_ThenResultShouldFive() {
-        countOnMe.addNewNumber(10)
+        countOnMe.multiplication()
+        countOnMe.addNewNumber(8)
         countOnMe.division()
         countOnMe.addNewNumber(2)
         countOnMe.calculate()
-        XCTAssert(countOnMe.stringNumbers.last == "5")
+        XCTAssert(true)
     }
-   
-    func testExpressionIsCorrect() {
-        XCTAssert(countOnMe.expressionIsCorrect == false)
-        countOnMe.addNewNumber(10)
-        XCTAssert(countOnMe.expressionIsCorrect == true)
-        countOnMe.addNewOperator(with:"+")
-        XCTAssert(countOnMe.expressionIsCorrect == false)
-        countOnMe.addNewNumber(3)
-        XCTAssert(countOnMe.expressionIsCorrect == true)
+  
+    func testGivenOrderOfOperations_WhenTappingEightSubFourMultTwoAddOne_ThenResultShouldBeOne() {
+        countOnMe.addNewNumber(8)
+        countOnMe.substraction()
+        countOnMe.addNewNumber(4)
+        countOnMe.multiplication()
+        countOnMe.addNewNumber(2)
+        countOnMe.addition()
+        countOnMe.addNewNumber(1)
         countOnMe.calculate()
-        XCTAssert(countOnMe.expressionIsCorrect == false)
+        XCTAssert(countOnMe.stringNumbers.last == "1")
+    }
+        
+    func testGivenAddititon_WhenTappingTenMoreFive_ThenResultShouldBefifteen() {
+        countOnMe.addNewNumber(10)
+        countOnMe.addition()
+        countOnMe.addNewNumber(5)
+        countOnMe.calculate()
+        XCTAssert(countOnMe.stringNumbers.last == "15")
     }
     
-    func testTextToDisplay() {
-        countOnMe.addNewNumber(10)
-        countOnMe.addNewOperator(with:"+")
-        countOnMe.addNewNumber(2)
+    func testDivisionFor0_WhenTappingOneDivideZero_ThenResultShouldBeZero() {
+        countOnMe.addNewNumber(1)
+        countOnMe.division()
+        countOnMe.addNewNumber(0)
         countOnMe.calculate()
-        XCTAssert(countOnMe.updateDisplay.text == "5")
-    }
-    
-    func testClear() {
-        countOnMe.addNewNumber(10)
-        countOnMe.addNewOperator(with: "+" )
-        countOnMe.addNewNumber(2)
-        countOnMe.calculate()
-        countOnMe.clear()
         XCTAssertTrue(countOnMe.stringNumbers.last == "0")
     }
     
-    func testAlertMessage()  {
-        countOnMe.simpleCalcDelegate?.alertMessage(title: "oups", message: "test")
-        XCTAssert(true)
-        }
+    func testmultiplication_WhenTappingfiveMultiplicateFive_ThenResultShouldBetwentyFive() {
+        countOnMe.addNewNumber(5)
+        countOnMe.multiplication()
+        countOnMe.addNewNumber(5)
+        countOnMe.calculate()
+        XCTAssertTrue(countOnMe.stringNumbers.last == "25")
+    }
     
-     func testDivisionFor0() {
-         countOnMe.addNewNumber(1)
-         countOnMe.division()
-         countOnMe.addNewNumber(0)
-         countOnMe.calculate()
-         XCTAssertTrue(countOnMe.stringNumbers.last == "0")
-     }
- 
-   
-*/
-
+    func testDivision_WhenTappingTenDivideTree_ThenResultShouldBeTreePointthritytree() {
+        countOnMe.addNewNumber(10)
+        countOnMe.division()
+        countOnMe.addNewNumber(3)
+        countOnMe.calculate()
+        XCTAssertTrue(countOnMe.stringNumbers.last == "3.33")
+    }
+    
+    func testGivenClear_WhenTappingAc_ThenResultShouldBeClerArrayOfNumber() {
+        countOnMe.addNewNumber(10)
+        countOnMe.clear()
+        XCTAssertTrue(countOnMe.stringNumbers == [String()])
+    }
     
 }
