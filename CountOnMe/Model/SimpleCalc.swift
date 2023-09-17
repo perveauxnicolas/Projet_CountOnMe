@@ -20,9 +20,8 @@ class SimpleCalc  {
     var operators: [String] = ["+"]     //Array of operators
     var index = 0
     var simpleCalcDelegate: simpleCalcDelegate?     //  the delegate
-    
     var resultString:String! // Parameter to round the result if not a decimal number
-    
+
     var expressionIsCorrect: Bool {   //expression correctly entered by the user, otherwise it will alert the user
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
@@ -36,9 +35,9 @@ class SimpleCalc  {
         }
         return true
     }
-   
-    var canAddOperator: Bool {  //Checks that the string of numbers contains something, otherwise it will warn the user to first enter a string of numbers and then add an operator.
-            if let stringNumber = stringNumbers.last {
+    //Checks that the string of numbers contains something otherwise it will warn the user to first enter a string of numbers and then add an operator.
+    var canAddOperator: Bool {
+                    if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
                 simpleCalcDelegate?.alertMessage(title: "error", message: "Wrong expression!")
                 return false
@@ -106,7 +105,7 @@ class SimpleCalc  {
         stringNumbers[stringNumbers.count-1] = resultString
          }
         
-    func roundResult(result: Double) { //remove the decimal of the Double if result is an integer
+    func roundResult(result: Double) { // remove the decimal of the Double if result is an integer
         if result == Double(Int(result)) {
             let roundResult = Int(result)
             resultString = String(roundResult)
@@ -118,29 +117,29 @@ class SimpleCalc  {
     func orderOfOperations() {      //  managing order of operations and managing operations (*, /)
             let priorityOperators = ["x", "÷"]
             var result: Double = 0
-            var i = 0
-            while i < stringNumbers.count - 1 {
-                if var firstOperand = Double(stringNumbers[i]) {
-                    while priorityOperators.contains(operators[i + 1]) {
-                        if let secondOperand = Double(stringNumbers[i + 1]) {
-                            if operators[i + 1] == "x" {
+            var theStringNumber = 0
+            while theStringNumber < stringNumbers.count - 1 {
+                if var firstOperand = Double(stringNumbers[theStringNumber]) {
+                    while priorityOperators.contains(operators[theStringNumber + 1]) {
+                        if let secondOperand = Double(stringNumbers[theStringNumber + 1]) {
+                            if operators[theStringNumber + 1] == "x" {
                                 result = firstOperand * secondOperand
-                            } else if operators[i + 1] == "÷" && secondOperand != 0 && firstOperand != 0 {
+                            } else if operators[theStringNumber + 1] == "÷" && secondOperand != 0 && firstOperand != 0 {
                                 result = firstOperand / secondOperand
                             } else {
                                 simpleCalcDelegate?.alertMessage(title: "Error!", message: "Dividing by 0 doesn't exist!")
                                 result = 0
                             }
-                            stringNumbers[i] = String(result)
+                            stringNumbers[theStringNumber] = String(result)
                             firstOperand = result
-                            stringNumbers.remove(at: i + 1)
-                            operators.remove(at: i + 1)
-                            if i == stringNumbers.count - 1 {
+                            stringNumbers.remove(at: theStringNumber + 1)
+                            operators.remove(at: theStringNumber + 1)
+                            if theStringNumber == stringNumbers.count - 1 {
                                 return
                             }
                         }
                     }
-                    i += 1
+                    theStringNumber += 1
                 }
             }
     }
@@ -154,27 +153,27 @@ class SimpleCalc  {
     }
 
     func substraction() {   // minus operator when users types it
-            if canAddOperator {
-                operators.append("-")
-                stringNumbers.append("")
-                updateDisplay()
-            }
+        if canAddOperator {
+            operators.append("-")
+            stringNumbers.append("")
+            updateDisplay()
+        }
     }
     
     func division() {   // divide operator when user types it
-            if canAddOperator {
-                operators.append("÷")
-                stringNumbers.append("")
-                updateDisplay()
-            }
+        if canAddOperator {
+            operators.append("÷")
+            stringNumbers.append("")
+            updateDisplay()
+        }
     }
     
     func multiplication() { // multiply operator when user types it
-            if canAddOperator {
-                operators.append("x")
-                stringNumbers.append("")
-                updateDisplay()
-            }
+        if canAddOperator {
+            operators.append("x")
+            stringNumbers.append("")
+            updateDisplay()
+        }
     }
 
     func clear() {  // reset
