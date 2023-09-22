@@ -40,13 +40,13 @@ class SimpleCalcTests: XCTestCase {
     
     func testGivenerror_WrongExpression(){
         countOnMe.addNewOperator(with: "+")
-        countOnMe.simpleCalcDelegate?.alertMessage(title: "error", message: "Wrong expression!")
+        countOnMe.simpleCalcDelegate?.displayMessageInWarningWindow(title: "error", message: "Wrong expression!")
         XCTAssert(true)
     }
     
     func testGivenStartAnewCalculation(){
         countOnMe.calculate()
-        countOnMe.simpleCalcDelegate?.alertMessage(title: "error!", message: "Start a new calculation!")
+        countOnMe.simpleCalcDelegate?.displayMessageInWarningWindow(title: "error!", message: "Start a new calculation!")
         XCTAssert(true)
     }
     
@@ -87,7 +87,7 @@ class SimpleCalcTests: XCTestCase {
         countOnMe.calculate()
         XCTAssert(true)
     }
-  
+    
     func testGivenOrderOfOperations_WhenTappingEightSubFourMultTwoAddOne_ThenResultShouldBeOne() {
         countOnMe.addNewNumber(8)
         countOnMe.substraction()
@@ -99,7 +99,7 @@ class SimpleCalcTests: XCTestCase {
         countOnMe.calculate()
         XCTAssert(countOnMe.stringNumbers.last == "1")
     }
-        
+    
     func testGivenAddititon_WhenTappingTenMoreFive_ThenResultShouldBefifteen() {
         countOnMe.addNewNumber(10)
         countOnMe.addition()
@@ -114,6 +114,16 @@ class SimpleCalcTests: XCTestCase {
         countOnMe.addNewNumber(0)
         countOnMe.calculate()
         XCTAssertTrue(countOnMe.stringNumbers.last == "0")
+        
+    }
+    
+    func testDivisionFor0_WhenTappingOneDivideZero_ThenResultShouldBeError() {
+        countOnMe.addNewNumber(1)
+        countOnMe.division()
+        countOnMe.addNewNumber(0)
+        countOnMe.calculate()
+        countOnMe.simpleCalcDelegate?.displayMessageInWarningWindow(title: "Error!", message: "Dividing by 0 doesn't exist!")
+        XCTAssert(true)
     }
     
     func testmultiplication_WhenTappingfiveMultiplicateFive_ThenResultShouldBetwentyFive() {

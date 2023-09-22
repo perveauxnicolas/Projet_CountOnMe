@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SimpleCalcViewController.swift
 //  SimpleCalc
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
@@ -8,11 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SimpleCalcViewController: UIViewController {
     
     
     // MARK: - OUTLETS
-    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: UIButton!
     @IBOutlet var operatorButtons: UIButton!
@@ -41,14 +40,14 @@ class ViewController: UIViewController {
     }
 }
 
-    // MARK: - EXTENSION
-    //Using extension with protocol(Model) to delegate, in order to manage alerts and update the display, to the model
-    extension ViewController: simpleCalcDelegate {
-        func alertMessage(title: String, message: String) {
-            updateShowAlert(title: title, message: message)
-        }
-
-        func updateTextView(label: String) {
-            textView.text = label
-        }
+// MARK: - EXTENSION
+//Using extension with protocol(Model) to delegate, in order to manage alerts and update the display, to the model
+extension SimpleCalcViewController: simpleCalcDelegate {
+    func displayMessageInWarningWindow(title: String, message: String) {
+        updateShowAlert(title: title, message: message)
     }
+    
+    func displayTheResultOnTheView(label: String) {
+        textView.text = label
+    }
+}
