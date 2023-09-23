@@ -104,11 +104,6 @@ class SimpleCalc  {
                 total -= number
             }
         }
-        if total > (Double(Int.max)) {
-            total = Double()
-            clear()
-            simpleCalcDelegate?.displayMessageInWarningWindow(title: "error", message: "the result is too large to display")
-        }
         let result = total
         clear()
         // Round the result if no decimal needed
@@ -118,12 +113,10 @@ class SimpleCalc  {
     }
     // remove the decimal of the Double if result is an integer
     private func roundResult(result: Double) {
-        if result == Double(Int(result)) {
-            let roundResult = Int(result)
-            resultString = String(roundResult)
-        } else {
-            resultString = String(format:"%.2f", result)
-        }
+        let numberformatter = NumberFormatter()
+        numberformatter.minimumFractionDigits = 0
+        numberformatter.maximumFractionDigits = 2
+        resultString = numberformatter.string(from: NSNumber(value: result))
     }
     //  managing order of operations and managing operations (*, /)
     private func orderOfOperations() {
